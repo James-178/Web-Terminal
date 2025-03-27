@@ -2,7 +2,7 @@
 
 A customizable terminal interface for web applications that brings command-line functionality to your browser.
 
-![Web Terminal](https://via.placeholder.com/800x400?text=Web+Terminal)
+![Web Terminal](web-terminal.png)
 
 ## 🚀 Features
 
@@ -171,7 +171,7 @@ terminal.toggleTerminal();
 ### CDN (Example)
 
 ```html
-<script src="https://cdn.example.com/web-terminal.js"></script>
+<script src="https://github.com/James-178/Web-Terminal/web-terminal.js"></script>
 ```
 
 ## 🤝 Contributing
