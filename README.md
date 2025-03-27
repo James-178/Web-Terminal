@@ -53,6 +53,11 @@ const terminal = new WebTerminal({
     welcomeMessage: 'Welcome to My Custom Terminal!\nType "help" to get started.',
     historySize: 200
 });
+
+terminal.updateAppearance({
+    backgroundColor: '#0a2342',
+    textColor: '#a0d2eb'
+});
 ```
 
 ### Adding Custom Commands

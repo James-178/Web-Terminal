@@ -214,14 +214,6 @@ class WebTerminal {
             this.config.width = this.container.style.width;
             this.config.height = this.container.style.height;
         });
-
-        //focus input when clicking anywhere in the terminal
-        // REMOVE
-        this.container.addEventListener('click', (e) => {
-            if (e.target !== this.input) {
-                this.input.focus();
-            }
-        });
     }
 
     /**
@@ -394,6 +386,17 @@ class WebTerminal {
             action: (args, terminal) => {
                 terminal.writeLine('Web Terminal - A customizable terminal for web applications');
                 terminal.writeLine('Type "help" to see available commands.');
+            }
+        });
+
+        this.registerCommand('clearHistory', {
+            description: 'Clear the terminal history',
+            action: (args, terminal) => {
+                terminal.history = [];
+                terminal.historyIndex = -1;
+                terminal.inputBuffer = '';
+                terminal.saveHistory();
+                terminal.writeLine('History cleared.');
             }
         });
 
