@@ -2,7 +2,7 @@
 
 A customizable terminal interface for web applications that brings command-line functionality to your browser.
 
-![Web Terminal](web-terminal.png)
+![Web Terminal](web-terminal-img.png)
 
 ## 🚀 Features
 
