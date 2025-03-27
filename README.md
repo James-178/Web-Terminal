@@ -2,6 +2,8 @@
 
 A customizable terminal interface for web applications that brings command-line functionality to your browser.
 
+Access the demo here: [Demo](https://james-178.github.io/Web-Terminal/index.html)
+
 ![Web Terminal](web-terminal-img.png)
 
 ## 🚀 Features
