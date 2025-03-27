@@ -1,0 +1,39 @@
+/* Additional styles for WebTerminal */
+.web-terminal-container * {
+    box-sizing: border-box;
+}
+
+.web-terminal-toggle:hover {
+    opacity: 0.9;
+}
+
+.web-terminal-header span {
+    user-select: none;
+}
+
+.web-terminal-output::-webkit-scrollbar {
+    width: 8px;
+}
+
+.web-terminal-output::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.web-terminal-output::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.web-terminal-output::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.web-terminal-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.web-terminal-prompt {
+    user-select: none;
+    padding-right: 5px;
+}

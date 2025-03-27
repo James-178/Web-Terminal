@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Terminal Demo</title>
+    <link rel="stylesheet" href="web-terminal.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Web Terminal Demo</h1>
+        <p>This page demonstrates the WebTerminal component. Click the terminal icon in the bottom left corner to open the terminal.</p>
+        
+        <h2>Customization Examples</h2>
+        <button id="theme-dark">Dark Theme</button>
+        <button id="theme-light">Light Theme</button>
+        <button id="theme-matrix">Matrix Theme</button>
+        <button id="theme-blue">Blue Theme</button>
+        
+        <h2>Add Custom Command</h2>
+        <button id="add-command">Add "hello" Command</button>
+        <button id="add-echo">Add "echo" Command</button>
+        
+        <h2>Usage Example</h2>
+        <pre>
+// Initialize terminal
+const terminal = new WebTerminal({
+    backgroundColor: '#1e1e1e',
+    textColor: '#f0f0f0',
+    fontSize: '14px',
+    promptSymbol: '$',
+    welcomeMessage: 'Welcome to Web Terminal!\nType "help" to see available commands.'
+});
+
+// Register a custom command
+terminal.registerCommand('hello', {
+    description: 'Say hello to someone',
+    usage: 'hello [name]',
+    validator: (args) => true,
+    action: (args, terminal) => {
+        const name = args.length > 0 ? args[0] : 'World';
+        terminal.writeLine(`Hello, ${name}!`);
+    }
+});
+        </pre>
+    </div>
+    
+    <script src="web-terminal.js"></script>
+    <script>
+        //initialize terminal
+        const terminal = new WebTerminal({
+            backgroundColor: '#1e1e1e',
+            textColor: '#f0f0f0',
+            fontSize: '14px',
+            promptSymbol: '>',
+            welcomeMessage: 'Welcome to Web Terminal!\nType "help" to see available commands.'
+        });
+        
+        //theme buttons
+        document.getElementById('theme-dark').addEventListener('click', () => {
+            terminal.updateAppearance({
+                backgroundColor: '#1e1e1e',
+                textColor: '#f0f0f0'
+            });
+        });
+        
+        document.getElementById('theme-light').addEventListener('click', () => {
+            terminal.updateAppearance({
+                backgroundColor: '#f5f5f5',
+                textColor: '#333333'
+            });
+        });
+        
+        document.getElementById('theme-matrix').addEventListener('click', () => {
+            terminal.updateAppearance({
+                backgroundColor: '#000000',
+                textColor: '#00ff00',
+                fontFamily: 'Courier New, monospace'
+            });
+        });
+        
+        document.getElementById('theme-blue').addEventListener('click', () => {
+            terminal.updateAppearance({
+                backgroundColor: '#0a2342',
+                textColor: '#a0d2eb'
+            });
+        });
+        
+        //add custom command
+        document.getElementById('add-command').addEventListener('click', () => {
+            terminal.registerCommand('hello', {
+                description: 'Say hello to someone',
+                usage: 'hello [name]',
+                validator: (args) => true,
+                action: (args, terminal) => {
+                    const name = args.length > 0 ? args[0] : 'World';
+                    terminal.writeLine(`Hello, ${name}!`);
+                }
+            });
+            
+            //alert('Command "hello" added! Try typing "hello" or "hello YourName" in the terminal.');
+        });
+        
+        document.getElementById('add-echo').addEventListener('click', () => {
+            terminal.registerCommand('echo', {
+                description: 'Echo the provided arguments',
+                usage: 'echo [text...]',
+                action: (args, terminal) => {
+                    terminal.writeLine(args.join(' '));
+                }
+            });
+            
+            //alert('Command "echo" added! Try typing "echo Hello World" in the terminal.');
+        });
+
+        terminal.registerCommand('open', {
+            description: 'Open a file or URL',
+            usage: 'open [type] [name]',
+            action: (args, terminal) => {
+                if (args.length === 0) {
+                    terminal.writeLine('Please specify what to open');
+                    return;
+                }
+                terminal.writeLine(`Opening: ${args.join(' ')}`);
+            },
+            //this is the most complex part
+            //allows users to tab complete their commands
+            tabComplete: (partial, previousArgs, terminal, position) => {
+                //different completions based on argument position
+                if (position === 1) {
+                    //first argument - type of thing to open
+                    const options = ['file', 'url', 'app', 'document', 'settings'];
+                    return options.filter(opt => opt.startsWith(partial || ''));
+                } else if (position === 2) {
+                    //second argument - depends on the first argument
+                    const firstArg = previousArgs[0];
+                    if (firstArg === 'file') {
+                        return ['document.txt', 'image.png', 'report.pdf'].filter(f => 
+                            f.startsWith(partial || ''));
+                    } else if (firstArg === 'url') {
+                        return ['google.com', 'github.com', 'example.com'].filter(u => 
+                            u.startsWith(partial || ''));
+                    } else if (firstArg === 'app') {
+                        return ['calculator', 'notepad', 'browser'].filter(a => 
+                            a.startsWith(partial || ''));
+                    }
+                }
+                //default
+                return [];
+            }
+        });
+    </script>
+</body>
+</html>
